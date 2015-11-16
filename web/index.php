@@ -88,15 +88,8 @@ use Silex\Provider\DoctrineServiceProvider;
 
 
 	$app->match('/tableslisttomigrate', function (Request $request) use ($app) {
-    // some default data for when the form is displayed the first time
-    // $default = array(
-    //     'table' => 'tablename1',
-    //     'table2' => 'tablename2',
-    //     'table3' => 'tablename3',
-    //     'table4' => 'tablename4',
-    // );
 
-    //$sql = "SHOW TABLES";
+		//Load tables from origin db
     $tables = $app['dbs']['origin']
     	->getSchemaManager()
     	->listTables();
@@ -107,12 +100,15 @@ use Silex\Provider\DoctrineServiceProvider;
 		}
     //return new Response(var_dump($list), 200);
 
-    $form = $app['form.factory']->createBuilder('form')
+    $form = $app['form.factory']->createBuilder('form', ['allow_extra_fields' => true])
     	->add('tables', 'choice', [
             'choices' => $list,
             'multiple' => true,
+            'attr' => ['size' => '25'],
+            'allow_extra_fields'    => true,
         ])
-        ->getForm();
+    	->add('submit','submit')
+      ->getForm();
 
     $form->handleRequest($request);
 
