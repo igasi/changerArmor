@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+
+{% block sub_title 'Drupal data migration ' %}
+{% block body %}
+<h2>Config databases</h2>
+<p>-------------------------------------</p>
+<div class="databases">
+  
+  <form action="#" method="post">
+    
+    {{ form_start(form) }}
+      {{ form_errors(form) }}
+      
+      <div class="db origin">
+        <h3>Database origin</h3>
+        
+        {{ form_row(form.origin_db_name) }} 
+        {{ form_row(form.origin_db_user) }} 
+        {{ form_row(form.origin_db_password) }} 
+        {{ form_row(form.origin_db_port) }} 
+        {{ form_row(form.origin_db_host) }} 
+      </div>
+      
+      <div class="db destination">
+        <h3>Database destination</h3>
+
+        {{ form_row(form.destination_db_name) }} 
+        {{ form_row(form.destination_db_user) }} 
+        {{ form_row(form.destination_db_password) }} 
+        {{ form_row(form.destination_db_port) }} 
+        {{ form_row(form.destination_db_host) }} 
+      </div>
+      
+      <div class="actions">
+        <input type="submit" name="submit" value="View tables in databases" />
+      </div>
+    {{ form_end(form) }}
+
+  </form>
+
+
+</div>
+{% endblock body %}

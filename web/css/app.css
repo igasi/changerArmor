@@ -1,0 +1,20 @@
+
+.container{
+  width: 80%;
+  margin: 15px auto;
+}
+
+.db {
+    float: left;
+    width: 49%;
+}
+
+.actions {
+    text-align: center;
+    clear: both;
+    padding-top: 20px;
+}
+
+button {
+    font-size: 25px;
+}

@@ -1,0 +1,22 @@
+{
+    "name": "igasi/d7data-migration",
+    "description": "A simple tool for migrate data from drupal7 to drupal7 project with de same structure, without bootstrapping drupal.",
+    "type": "drupal tool",
+    "require": {
+        "silex/silex": "^1.3",
+        "twig/twig": "^1.23",
+        "symfony/twig-bridge": "^2.7",
+        "symfony/form": "^2.7",
+        "symfony/security-csrf": "^2.7",
+        "symfony/validator": "^2.7",
+        "symfony/config": "^2.7",
+        "symfony/translation": "^2.7"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Isaac Gasi",
+            "email": "isaac.gasi@gmail.com"
+        }
+    ]
+}
