@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block sub_title 'Drupal table list of the databases origin ' %}
+{% block body %}
+<h2>Tables list</h2>
+<p>-------------------------------------</p>
+<div class="tables">
+  
+  <form action="#" method="post">
+    
+    {{ form_widget(form) }}
+      
+    <div class="actions">
+      <input type="submit" name="submit" value="Dump this tables" />
+    </div>
+
+  </form>
+
+
+</div>
+{% endblock body %}

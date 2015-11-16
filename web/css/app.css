@@ -15,6 +15,18 @@
     padding-top: 20px;
 }
 
-button {
-    font-size: 25px;
+.db div{
+  margin-bottom: 10px;
+  width: 65%;
+}
+
+.db div input {
+    margin-right: 10px;
+    float: right;
+    clear: both;
+}
+
+.tables label{
+    display: block;
+    font-weight: 700;
 }

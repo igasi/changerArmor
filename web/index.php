@@ -6,12 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
 
-// Declare our primary action
-/*$app->get( '/', function() use ($app) {
-    return "hello";//$app['twig']->render('migration_form.html.twig');
-})
-	->bind("dbs_form");*/
-
+// Define homepage path
 $app->match('/', function (Request $request) use ($app) {
     // some default data for when the form is displayed the first time
     $default = array(
@@ -48,14 +43,48 @@ $app->match('/', function (Request $request) use ($app) {
         // do something with the data
 
         // redirect somewhere
+        return $app->redirect('/index.php/tableslisttomigrate');
+        //return new Response(var_dump($data), 200);
+    }
+
+    // display the form
+    return $app['twig']->render('migration_form.html.twig', array('form' => $form->createView()));
+})
+	->bind('homepage');
+
+
+$app->match('/tableslisttomigrate', function (Request $request) use ($app) {
+    // some default data for when the form is displayed the first time
+    $default = array(
+        'table' => 'tablename1',
+        'table2' => 'tablename2',
+        'table3' => 'tablename3',
+        'table4' => 'tablename4',
+    );
+
+    $form = $app['form.factory']->createBuilder('form', $default)
+    	->add('tables', 'choice', [
+            'choices' => $default,
+            'multiple' => true,
+        ])
+        ->getForm();
+
+    $form->handleRequest($request);
+
+    if ($form->isValid()) {
+        $data = $form->getData();
+
+        // do something with the data
+
+        // redirect somewhere
         //return $app->redirect('/');
         return new Response(var_dump($data), 200);
     }
 
     // display the form
-    return $app['twig']->render('migration_form.html.twig', array('form' => $form->createView()));
-});
-
+    return $app['twig']->render('tables_form.html.twig', array('form' => $form->createView()));
+})
+	->bind('tableslisttomigrate');
 
 $app->run();
 
