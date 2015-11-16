@@ -5,6 +5,7 @@ require __DIR__ . '/../bootstrap.php';
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
+use Silex\Provider\DoctrineServiceProvider;
 
 // Define homepage path
 $app->match('/', function (Request $request) use ($app) {
@@ -40,9 +41,29 @@ $app->match('/', function (Request $request) use ($app) {
     if ($form->isValid()) {
         $data = $form->getData();
 
-        // do something with the data
+        $app->register(new DoctrineServiceProvider(), array(
+		    'dbs.options' => array (
+		        'origin' => array(
+		            'driver'    => 'pdo_mysql',
+		            'host'      => $data['origin_db_host'],
+		            'dbname'    => $data['origin_db_name'],
+		            'user'      => $data['origin_db_user'],
+		            'password'  => $data['origin_db_password'],
+		            'port'  	=> $data['origin_db_port'],
+		            'charset'   => 'utf8mb4',
+		        ),
+		        'destination' => array(
+		            'driver'    => 'pdo_mysql',
+		            'host'      => $data['destination_db_host'],
+		            'dbname'    => $data['destination_db_name'],
+		            'user'      => $data['destination_db_user'],
+		            'password'  => $data['destination_db_password'],
+		            'port'  	=> $data['destination_db_port'],
+		            'charset'   => 'utf8mb4',
+		        ),
+		    ),
+		));
 
-        // redirect somewhere
         return $app->redirect('/index.php/tableslisttomigrate');
         //return new Response(var_dump($data), 200);
     }
@@ -55,14 +76,21 @@ $app->match('/', function (Request $request) use ($app) {
 
 $app->match('/tableslisttomigrate', function (Request $request) use ($app) {
     // some default data for when the form is displayed the first time
-    $default = array(
-        'table' => 'tablename1',
-        'table2' => 'tablename2',
-        'table3' => 'tablename3',
-        'table4' => 'tablename4',
-    );
+    // $default = array(
+    //     'table' => 'tablename1',
+    //     'table2' => 'tablename2',
+    //     'table3' => 'tablename3',
+    //     'table4' => 'tablename4',
+    // );
 
-    $form = $app['form.factory']->createBuilder('form', $default)
+    //$sql = "SHOW TABLES";
+    $default = $app['dbs']['origin']
+    	->getSchemaManager()
+    	->listTables();
+
+    return new Response(var_dump($default), 200);
+
+    $form = $app['form.factory']->createBuilder('form')
     	->add('tables', 'choice', [
             'choices' => $default,
             'multiple' => true,
