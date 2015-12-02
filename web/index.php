@@ -100,7 +100,7 @@ use Silex\Provider\DoctrineServiceProvider;
 		}
     //return new Response(var_dump($list), 200);
 
-    $form = $app['form.factory']->createBuilder('form', ['allow_extra_fields' => true])
+    $form = $app['form.factory']->createBuilder('form', $list)
     	->add('tables', 'choice', [
             'choices' => $list,
             'multiple' => true,
